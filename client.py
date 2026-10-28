@@ -22,6 +22,7 @@ def main():
         if text == 'quit':
             text = DISCONNECT_MESSAGE
             send(client, text)
+            break
         else:
             send(client, text)
 

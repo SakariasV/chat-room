@@ -42,7 +42,7 @@ def handle_client(client, addr):
             msg_length = int(msg_length)
             msg = client.recv(msg_length).decode(FORMAT)
             if msg == DISCONNECT_MESSAGE:
-                print(f"[{client}] [User left]")
+                msg = "[User left]"
                 connected = False
         
         print(f"[{client}] {msg}")

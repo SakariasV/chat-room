@@ -4,7 +4,9 @@ import pickle
 
 HEADER = 64
 PORT = 50505
-IP = socket.gethostbyname(socket.gethostname())
+#IP = socket.gethostbyname(socket.gethostname())
+IP = '192.168.1.180'
+
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 
@@ -15,7 +17,7 @@ def main():
 
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((IP, PORT))
-    text = 'hello world'
+    text = 'PC here'
     send(client, text)
 
 

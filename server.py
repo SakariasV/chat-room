@@ -5,7 +5,8 @@ import time
 
 HEADER = 64
 PORT = 50505
-IP = socket.gethostbyname(socket.gethostname())
+#IP = socket.gethostbyname(socket.gethostname())
+IP = '192.168.1.180'
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 

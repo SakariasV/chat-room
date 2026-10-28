@@ -46,7 +46,6 @@ def handle_client(client, addr):
                 connected = False
         
         print(f"[{client}] {msg}")
-        time.sleep(2)
 
     client.close()
 

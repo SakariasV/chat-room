@@ -1,15 +1,62 @@
 import socket
+import threading
+import time
 
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('0.0.0.0', 9999))
+HEADER = 64
+PORT = 50505
+IP = socket.gethostbyname(socket.gethostname())
+FORMAT = 'utf-8'
+DISCONNECT_MESSAGE = "!DISCONNECT"
 
-server.listen(5)
+
+def main():
+    
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((IP, PORT))
+
+    server.listen(5)
 
 
-while True:
+    while True:
+        listen(server)
 
-    client, addr = server.accept()
-    print(client.recv(1024).decode())
+def listen(server):
+    print(f"[server listening on {IP}]")
+    while True:
+        client, addr = server.accept()
+        thread = threading.Thread(target=handle_client, args= (client, addr))
+        thread.start()
+        print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
 
-    client.send("Hello from server".encode())
+
+def handle_client(client, addr):
+
+    print(f"[NEW CONNECTION] {addr} connected")
+
+    connected = True
+    while connected:
+        msg_length = client.recv(HEADER).decode(FORMAT)
+        if msg_length:
+            msg_length = int(msg_length)
+            msg = client.recv(msg_length).decode(FORMAT)
+            if msg == DISCONNECT_MESSAGE:
+                connected = False
+        
+        print(f"[{client}] {msg}")
+        time.sleep(2)
+
+    client.close()
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    main()

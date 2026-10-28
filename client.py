@@ -1,18 +1,32 @@
 import socket
+import pickle
+
+
+HEADER = 64
+PORT = 50505
+IP = socket.gethostbyname(socket.gethostname())
+FORMAT = 'utf-8'
+DISCONNECT_MESSAGE = "!DISCONNECT"
+
 
 def main():
 
-    try:
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(('127.0.0.1', 9999))
-        client.send('client connected'.encode())
-        print(client.recv(1024).decode())
-    except:
-        print("Failed connecting to the server")
+    server_ip = socket.gethostname()
 
-    while True:
-        pass
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect((IP, PORT))
+    text = 'hello world'
+    send(client, text)
 
+
+
+def send(client, msg):
+    message = msg.encode(FORMAT)
+    msg_length = len(message)
+    send_legth = str(msg_length).encode(FORMAT)
+    send_legth += b' ' * (HEADER - len(send_legth))
+    client.send(send_legth)
+    client.send(message)
 
 if __name__ == '__main__':
     main()
